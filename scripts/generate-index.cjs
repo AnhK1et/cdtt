@@ -19,11 +19,11 @@ const html = `<!doctype html>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Anhkiet Store</title>
-  ${cssFile ? `<link rel="stylesheet" href="/assets/${cssFile}" />` : ''}
+  ${cssFile ? `<link rel="stylesheet" href="/${cssFile}" />` : ''}
 </head>
 <body>
   <div id="app"></div>
-  ${jsFile ? `<script type="module" src="/assets/${jsFile}"></script>` : ''}
+  ${jsFile ? `<script type="module" src="/${jsFile}"></script>` : ''}
 </body>
 </html>`;
 
