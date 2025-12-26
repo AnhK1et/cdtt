@@ -13,6 +13,13 @@ const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
 const cssFile = manifest['resources/css/app.css']?.file || '';
 const jsFile = manifest['resources/js/app.js']?.file || '';
 
+// Optional images folder for homepage products: public/images/home_products
+const imagesDir = path.join(process.cwd(), 'public', 'images', 'home_products');
+let productImages = [];
+if (fs.existsSync(imagesDir)) {
+  productImages = fs.readdirSync(imagesDir).filter(f => /\.(png|jpe?g|webp|gif)$/i.test(f));
+}
+
 // Static homepage content to embed inside #app so production always shows homepage
 const bodyContent = `
     <div class="homepage-layout">
@@ -68,7 +75,7 @@ const bodyContent = `
                     <div class="product-card" style="width:220px;border:1px solid #eee;padding:10px;border-radius:8px;margin:8px;display:inline-block;vertical-align:top;">
                       ${i % 4 === 0 ? '<div class="product-badge" style="background:#ff4d4f;color:#fff;padding:4px 8px;border-radius:4px;font-size:12px;">Giảm 10%</div>' : ''}
                       <a href="#" style="text-decoration:none;color:inherit;display:block;">
-                        <div style="width:100%;height:160px;background:#fafafa;display:flex;align-items:center;justify-content:center;font-size:40px;">📱</div>
+                        ${productImages.length ? `<img src="/images/home_products/${productImages[i % productImages.length]}" alt="Sản phẩm ${i+1}" style="width:100%;height:160px;object-fit:cover;border-radius:6px;" />` : `<div style="width:100%;height:160px;background:#fafafa;display:flex;align-items:center;justify-content:center;font-size:40px;">📱</div>`}
                         <div class="product-info" style="padding-top:8px;">
                           <h3 style="margin:6px 0 4px;font-size:16px;">Sản phẩm mẫu ${i+1}</h3>
                           <div class="product-price" style="color:#111;font-weight:600;">
