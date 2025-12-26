@@ -77,12 +77,12 @@ const bodyContent = `
             <section class="featured-products-section">
               <div class="section-header"><h2>Sản phẩm nổi bật</h2><a href="#" class="view-all-link">Xem tất cả</a></div>
               <div class="product-grid-homepage">
-                <div class="product-grid">
+                <div class="product-grid" style="display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start;">
                   ${[...Array(12)].map((_,i) => `
-                    <div class="product-card" style="width:220px;border:1px solid #eee;padding:10px;border-radius:8px;margin:8px;display:inline-block;vertical-align:top;">
-                      ${i % 4 === 0 ? '<div class="product-badge" style="background:#ff4d4f;color:#fff;padding:4px 8px;border-radius:4px;font-size:12px;">Giảm 10%</div>' : ''}
+                    <div class="product-card" style="flex:0 0 calc(33.333% - 16px);box-sizing:border-box;border:1px solid #eee;padding:12px;border-radius:8px;">
+                      ${i % 4 === 0 ? '<div class="product-badge" style="background:#ff4d4f;color:#fff;padding:4px 8px;border-radius:4px;font-size:12px;display:inline-block;margin-bottom:6px;">Giảm 10%</div>' : ''}
                       <a href="#" style="text-decoration:none;color:inherit;display:block;">
-                        ${productImages.length ? `<img src="/images/home_products/${productImages[i % productImages.length]}" alt="Sản phẩm ${i+1}" style="width:100%;height:160px;object-fit:cover;border-radius:6px;" />` : `<div style="width:100%;height:160px;background:#fafafa;display:flex;align-items:center;justify-content:center;font-size:40px;">📱</div>`}
+                        ${productImages.length ? `<img src="/images/${productImages[i % productImages.length]}" alt="Sản phẩm ${i+1}" style="width:100%;height:160px;object-fit:cover;border-radius:6px;" />` : `<div style="width:100%;height:160px;background:#fafafa;display:flex;align-items:center;justify-content:center;font-size:40px;">📱</div>`}
                         <div class="product-info" style="padding-top:8px;">
                           <h3 style="margin:6px 0 4px;font-size:16px;">Sản phẩm mẫu ${i+1}</h3>
                           <div class="product-price" style="color:#111;font-weight:600;">
