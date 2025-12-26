@@ -87,8 +87,50 @@ const html = `<!doctype html>
   ${cssFile ? `<link rel="stylesheet" href="/${cssFile}" />` : ''}
 </head>
 <body>
+  <header class="site-header" style="padding:12px 20px;display:flex;justify-content:space-between;align-items:center;background:#111;color:#fff;">
+    <a href="/" class="brand" style="color:#fff;text-decoration:none;font-weight:700;">Anhkiet Store</a>
+    <nav class="nav" style="display:flex;gap:12px;align-items:center;">
+      <a href="/" style="color:#fff;text-decoration:none;">Trang chủ</a>
+      <a href="/products" style="color:#fff;text-decoration:none;">Sản phẩm</a>
+      <button id="loginBtn" style="background:none;border:1px solid #fff;color:#fff;padding:6px 10px;cursor:pointer;border-radius:4px;">Đăng nhập</button>
+      <button id="registerBtn" style="background:#fff;border:none;color:#111;padding:6px 10px;cursor:pointer;border-radius:4px;">Đăng ký</button>
+    </nav>
+  </header>
+
   <div id="app">${bodyContent}</div>
+
+  <!-- Login Modal -->
+  <div id="loginModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);justify-content:center;align-items:center;">
+    <div style="background:#fff;padding:20px;border-radius:8px;max-width:420px;width:100%;">
+      <h3>Đăng nhập</h3>
+      <form action="/login" method="POST">
+        <div style="margin-bottom:8px;"><label>Email</label><input name="email" type="email" style="width:100%;padding:8px"/></div>
+        <div style="margin-bottom:8px;"><label>Mật khẩu</label><input name="password" type="password" style="width:100%;padding:8px"/></div>
+        <div style="display:flex;gap:8px;justify-content:flex-end;"><button type="button" id="loginClose">Hủy</button><button type="submit">Đăng nhập</button></div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Register Modal -->
+  <div id="registerModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);justify-content:center;align-items:center;">
+    <div style="background:#fff;padding:20px;border-radius:8px;max-width:480px;width:100%;">
+      <h3>Đăng ký</h3>
+      <form action="/register" method="POST">
+        <div style="margin-bottom:8px;"><label>Họ tên</label><input name="name" type="text" style="width:100%;padding:8px"/></div>
+        <div style="margin-bottom:8px;"><label>Email</label><input name="email" type="email" style="width:100%;padding:8px"/></div>
+        <div style="margin-bottom:8px;"><label>Mật khẩu</label><input name="password" type="password" style="width:100%;padding:8px"/></div>
+        <div style="display:flex;gap:8px;justify-content:flex-end;"><button type="button" id="registerClose">Hủy</button><button type="submit">Đăng ký</button></div>
+      </form>
+    </div>
+  </div>
+
   ${jsFile ? `<script type="module" src="/${jsFile}"></script>` : ''}
+  <script>
+    document.getElementById('loginBtn')?.addEventListener('click', function(){ document.getElementById('loginModal').style.display='flex'; });
+    document.getElementById('registerBtn')?.addEventListener('click', function(){ document.getElementById('registerModal').style.display='flex'; });
+    document.getElementById('loginClose')?.addEventListener('click', function(){ document.getElementById('loginModal').style.display='none'; });
+    document.getElementById('registerClose')?.addEventListener('click', function(){ document.getElementById('registerModal').style.display='none'; });
+  </script>
 </body>
 </html>`;
 
