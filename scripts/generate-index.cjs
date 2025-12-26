@@ -26,6 +26,21 @@ if (fs.existsSync(imagesRoot)) {
   const rootFiles = fs.readdirSync(imagesRoot).filter(f => /\.(png|jpe?g|webp|gif)$/i.test(f));
   productImages.push(...rootFiles);
 }
+// Ensure images are copied into public/build/images so Vercel serves them when outputDirectory=public/build
+const buildImagesDir = path.join(process.cwd(), 'public', 'build', 'images');
+if (!fs.existsSync(buildImagesDir)) {
+  fs.mkdirSync(buildImagesDir, { recursive: true });
+}
+for (const rel of productImages) {
+  const src = path.join(process.cwd(), 'public', 'images', rel);
+  const dest = path.join(buildImagesDir, path.basename(rel));
+  try {
+    fs.copyFileSync(src, dest);
+  } catch (err) {
+    // ignore copy errors, continue
+    // console.error('copy image failed', src, err);
+  }
+}
 
 // Static homepage content to embed inside #app so production always shows homepage
 const bodyContent = `
@@ -111,19 +126,27 @@ const html = `<!doctype html>
   ${cssFile ? `<link rel="stylesheet" href="/${cssFile}" />` : ''}
   <style>
     /* Layout tweaks: keep sidebar fixed width, allow main to expand */
-    .homepage-layout .container { display:flex; gap:24px; align-items:flex-start; }
+    .homepage-layout .container { display:flex; gap:24px; align-items:flex-start; max-width:1200px; margin:0 auto; padding:0 16px; }
     .categories-sidebar { flex: 0 0 240px; }
-    .homepage-main { flex: 1 1 0; }
-    .product-grid { display:flex; flex-wrap:wrap; gap:16px; }
-    .product-card { box-sizing:border-box; }
+    .homepage-main { flex: 1 1 0; min-width:0; }
+    /* Grid: 3 columns, cards fill cell */
+    .product-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap:20px; align-items:start; }
+    .product-card { box-sizing:border-box; width:100%; display:flex; flex-direction:column; justify-content:space-between; min-height:320px; background:#fff; }
+    .product-card img { width:100%; height:200px; object-fit:cover; border-radius:6px; display:block; }
+    .product-info { padding:8px 0; flex:0 0 auto; }
+    .product-price { margin-top:8px; }
+    /* responsive */
+    @media (max-width: 1200px) {
+      .homepage-layout .container { max-width:1000px; }
+    }
     @media (max-width: 900px) {
       .categories-sidebar { flex: 0 0 200px; }
-      .product-card { flex: 0 0 calc(50% - 16px); }
+      .product-grid { grid-template-columns: repeat(2, 1fr); }
     }
     @media (max-width: 600px) {
-      .homepage-layout .container { flex-direction:column; }
-      .categories-sidebar { flex: 0 0 auto; width:100%; }
-      .product-card { flex: 0 0 100%; }
+      .homepage-layout .container { flex-direction:column; padding:0 12px; }
+      .categories-sidebar { flex: 0 0 auto; width:100%; order:2; }
+      .product-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
