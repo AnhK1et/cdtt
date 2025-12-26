@@ -109,6 +109,23 @@ const html = `<!doctype html>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Anhkiet Store</title>
   ${cssFile ? `<link rel="stylesheet" href="/${cssFile}" />` : ''}
+  <style>
+    /* Layout tweaks: keep sidebar fixed width, allow main to expand */
+    .homepage-layout .container { display:flex; gap:24px; align-items:flex-start; }
+    .categories-sidebar { flex: 0 0 240px; }
+    .homepage-main { flex: 1 1 0; }
+    .product-grid { display:flex; flex-wrap:wrap; gap:16px; }
+    .product-card { box-sizing:border-box; }
+    @media (max-width: 900px) {
+      .categories-sidebar { flex: 0 0 200px; }
+      .product-card { flex: 0 0 calc(50% - 16px); }
+    }
+    @media (max-width: 600px) {
+      .homepage-layout .container { flex-direction:column; }
+      .categories-sidebar { flex: 0 0 auto; width:100%; }
+      .product-card { flex: 0 0 100%; }
+    }
+  </style>
 </head>
 <body>
   <header class="site-header" style="padding:12px 20px;display:flex;justify-content:space-between;align-items:center;background:#111;color:#fff;">
