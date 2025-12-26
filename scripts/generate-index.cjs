@@ -13,11 +13,18 @@ const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
 const cssFile = manifest['resources/css/app.css']?.file || '';
 const jsFile = manifest['resources/js/app.js']?.file || '';
 
-// Optional images folder for homepage products: public/images/home_products
-const imagesDir = path.join(process.cwd(), 'public', 'images', 'home_products');
+// Collect images from public/images/* (category subfolders) to use as product thumbnails
+const imagesRoot = path.join(process.cwd(), 'public', 'images');
 let productImages = [];
-if (fs.existsSync(imagesDir)) {
-  productImages = fs.readdirSync(imagesDir).filter(f => /\.(png|jpe?g|webp|gif)$/i.test(f));
+if (fs.existsSync(imagesRoot)) {
+  const categoryDirs = fs.readdirSync(imagesRoot).map(n => path.join(imagesRoot, n)).filter(p => fs.statSync(p).isDirectory());
+  for (const dir of categoryDirs) {
+    const files = fs.readdirSync(dir).filter(f => /\.(png|jpe?g|webp|gif)$/i.test(f)).map(f => path.join(path.basename(dir), f));
+    productImages.push(...files);
+  }
+  // Also include images directly under public/images if any
+  const rootFiles = fs.readdirSync(imagesRoot).filter(f => /\.(png|jpe?g|webp|gif)$/i.test(f));
+  productImages.push(...rootFiles);
 }
 
 // Static homepage content to embed inside #app so production always shows homepage
