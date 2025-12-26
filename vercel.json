@@ -1,6 +1,3 @@
 {
-  "outputDirectory": "public/build",
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
-  ]
+  "outputDirectory": "public/build"
 }
