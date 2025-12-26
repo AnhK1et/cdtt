@@ -63,12 +63,22 @@ const bodyContent = `
             <section class="featured-products-section">
               <div class="section-header"><h2>Sản phẩm nổi bật</h2><a href="#" class="view-all-link">Xem tất cả</a></div>
               <div class="product-grid-homepage">
-                <div class="product-card">
-                  <div class="product-badge">Giảm 10%</div>
-                  <a href="#"><img src="" alt="Product" onerror="this.style.display='none'"><div class="product-info"><h3>iPhone 17 Pro</h3><div class="product-price"><span class="price-old">34,990,000₫</span><span class="price-new">30,990,000₫</span></div></div></a>
-                </div>
-                <div class="product-card">
-                  <a href="#"><div class="product-placeholder">📱</div><div class="product-info"><h3>Laptop ABC</h3><div class="product-price"><span class="price-new">22,500,000₫</span></div></div></a>
+                <div class="product-grid">
+                  ${[...Array(12)].map((_,i) => `
+                    <div class="product-card" style="width:220px;border:1px solid #eee;padding:10px;border-radius:8px;margin:8px;display:inline-block;vertical-align:top;">
+                      ${i % 4 === 0 ? '<div class="product-badge" style="background:#ff4d4f;color:#fff;padding:4px 8px;border-radius:4px;font-size:12px;">Giảm 10%</div>' : ''}
+                      <a href="#" style="text-decoration:none;color:inherit;display:block;">
+                        <div style="width:100%;height:160px;background:#fafafa;display:flex;align-items:center;justify-content:center;font-size:40px;">📱</div>
+                        <div class="product-info" style="padding-top:8px;">
+                          <h3 style="margin:6px 0 4px;font-size:16px;">Sản phẩm mẫu ${i+1}</h3>
+                          <div class="product-price" style="color:#111;font-weight:600;">
+                            ${i % 3 === 0 ? '<span class="price-old" style="text-decoration:line-through;color:#888;margin-right:6px;">' + (24990000 - i*100000) + '₫</span>' : ''}
+                            <span class="price-new">${(19990000 - i*50000).toLocaleString('vi-VN')}₫</span>
+                          </div>
+                        </div>
+                      </a>
+                    </div>
+                  `).join('')}
                 </div>
               </div>
             </section>
