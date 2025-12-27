@@ -41,6 +41,10 @@ Route::middleware('auth')->group(function () {
 
 // Admin Routes
 Route::prefix('admin')->middleware(['auth'])->group(function () {
+    // Redirect /admin → /admin/dashboard for convenience
+    Route::get('/', function () {
+        return redirect()->route('admin.dashboard');
+    });
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
     
     Route::resource('categories', CategoryController::class)->names([
