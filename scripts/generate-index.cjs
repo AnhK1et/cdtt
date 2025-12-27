@@ -91,25 +91,25 @@ const bodyContent = `
 
             <section class="featured-products-section">
               <div class="section-header"><h2>Sản phẩm nổi bật</h2><a href="#" class="view-all-link">Xem tất cả</a></div>
-              <div class="product-grid-homepage">
-                <div class="product-grid" style="display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start;">
-                  ${[...Array(12)].map((_,i) => `
-                    <div class="product-card" style="flex:0 0 calc(33.333% - 16px);box-sizing:border-box;border:1px solid #eee;padding:12px;border-radius:8px;">
-                      ${i % 4 === 0 ? '<div class="product-badge" style="background:#ff4d4f;color:#fff;padding:4px 8px;border-radius:4px;font-size:12px;display:inline-block;margin-bottom:6px;">Giảm 10%</div>' : ''}
-                      <a href="#" style="text-decoration:none;color:inherit;display:block;">
-                        ${productImages.length ? `<img src="/images/${productImages[i % productImages.length]}" alt="Sản phẩm ${i+1}" style="width:100%;height:160px;object-fit:cover;border-radius:6px;" />` : `<div style="width:100%;height:160px;background:#fafafa;display:flex;align-items:center;justify-content:center;font-size:40px;">📱</div>`}
-                        <div class="product-info" style="padding-top:8px;">
-                          <h3 style="margin:6px 0 4px;font-size:16px;">Sản phẩm mẫu ${i+1}</h3>
-                          <div class="product-price" style="color:#111;font-weight:600;">
-                            ${i % 3 === 0 ? '<span class="price-old" style="text-decoration:line-through;color:#888;margin-right:6px;">' + (24990000 - i*100000) + '₫</span>' : ''}
-                            <span class="price-new">${(19990000 - i*50000).toLocaleString('vi-VN')}₫</span>
-                          </div>
+            <div class="product-grid-homepage">
+              <div class="product-grid">
+                ${[...Array(12)].map((_,i) => `
+                  <div class="product-card">
+                    ${i % 4 === 0 ? '<div class="product-badge">Giảm 10%</div>' : ''}
+                    <a href="#" class="product-link">
+                      ${productImages.length ? `<img class="product-image" src="/images/${productImages[i % productImages.length]}" alt="Sản phẩm ${i+1}" />` : `<div class="product-image placeholder">📱</div>`}
+                      <div class="product-info">
+                        <h3 class="product-title">Sản phẩm mẫu ${i+1}</h3>
+                        <div class="product-price">
+                          ${i % 3 === 0 ? '<span class="price-old">' + (24990000 - i*100000).toLocaleString('vi-VN') + '₫</span>' : ''}
+                          <span class="price-new">${(19990000 - i*50000).toLocaleString('vi-VN')}₫</span>
                         </div>
-                      </a>
-                    </div>
-                  `).join('')}
-                </div>
+                      </div>
+                    </a>
+                  </div>
+                `).join('')}
               </div>
+            </div>
             </section>
           </div>
         </div>
@@ -125,28 +125,37 @@ const html = `<!doctype html>
   <title>Anhkiet Store</title>
   ${cssFile ? `<link rel="stylesheet" href="/${cssFile}" />` : ''}
   <style>
-    /* Layout tweaks: keep sidebar fixed width, allow main to expand */
-    .homepage-layout .container { display:flex; gap:24px; align-items:flex-start; max-width:1200px; margin:0 auto; padding:0 16px; }
-    .categories-sidebar { flex: 0 0 240px; }
+    /* Centered content column to match screenshot */
+    .homepage-layout .container { display:flex; gap:24px; align-items:flex-start; max-width:760px; margin:0 auto; padding:20px 12px; justify-content:center; }
+    .categories-sidebar { flex: 0 0 80px; min-width:80px; }
     .homepage-main { flex: 1 1 0; min-width:0; }
-    /* Grid: 3 columns, cards fill cell */
-    .product-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap:20px; align-items:start; }
-    .product-card { box-sizing:border-box; width:100%; display:flex; flex-direction:column; justify-content:space-between; min-height:320px; background:#fff; }
-    .product-card img { width:100%; height:200px; object-fit:cover; border-radius:6px; display:block; }
-    .product-info { padding:8px 0; flex:0 0 auto; }
-    .product-price { margin-top:8px; }
+
+    /* Section card wrapper */
+    .featured-products-section { background:#fff; border-radius:12px; padding:20px; box-shadow:0 8px 24px rgba(0,0,0,0.06); margin-top:20px; }
+    .featured-products-section .section-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; }
+    .featured-products-section .section-header h2 { margin:0; font-size:20px; color:#223; }
+
+    /* Grid: 3 columns inside the card */
+    .product-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap:18px; align-items:start; }
+    .product-card { box-sizing:border-box; width:100%; display:flex; flex-direction:column; align-items:center; text-align:center; background:#fff; border-radius:8px; padding:10px; border:1px solid #f1f1f1; min-height:260px; }
+    .product-image { width:100%; height:140px; object-fit:contain; border-radius:6px; background:#fafafa; padding:6px; display:block; }
+    .product-image.placeholder { display:flex; align-items:center; justify-content:center; font-size:40px; height:140px; }
+    .product-info { padding-top:8px; width:100%; }
+    .product-title { margin:6px 0 4px; font-size:14px; color:#222; overflow:hidden; text-overflow:ellipsis; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; min-height:36px; }
+    .product-price { margin-top:6px; font-weight:700; color:#e53935; font-size:14px; }
+    .price-old { text-decoration:line-through; color:#999; margin-right:6px; font-weight:400; font-size:12px; }
+    .product-badge { position:absolute; left:12px; top:8px; background:#ff4d4f; color:#fff; padding:6px 8px; border-radius:6px; font-size:12px; box-shadow:0 6px 18px rgba(255,77,79,0.12); }
+
     /* responsive */
-    @media (max-width: 1200px) {
-      .homepage-layout .container { max-width:1000px; }
-    }
     @media (max-width: 900px) {
-      .categories-sidebar { flex: 0 0 200px; }
       .product-grid { grid-template-columns: repeat(2, 1fr); }
     }
     @media (max-width: 600px) {
-      .homepage-layout .container { flex-direction:column; padding:0 12px; }
-      .categories-sidebar { flex: 0 0 auto; width:100%; order:2; }
+      .homepage-layout .container { max-width:100%; padding:12px; }
+      .categories-sidebar { display:none; }
       .product-grid { grid-template-columns: 1fr; }
+      .product-card { min-height:180px; }
+      .product-image { height:120px; }
     }
   </style>
 </head>
