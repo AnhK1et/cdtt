@@ -125,45 +125,37 @@ const html = `<!doctype html>
   <title>Anhkiet Store</title>
   ${cssFile ? `<link rel="stylesheet" href="/${cssFile}" />` : ''}
   <style>
-    :root {
-      --card-gap: clamp(12px, 2.5vw, 22px);
-      --card-padding: clamp(8px, 1.2vw, 12px);
-      --card-radius: 10px;
-    }
-
-    /* Center column with responsive max width; grid will auto-fit cards */
-    .homepage-layout .container { display:flex; gap:var(--card-gap); align-items:flex-start; max-width:1100px; margin:0 auto; padding:20px 16px; justify-content:center; box-sizing:border-box; }
-    .categories-sidebar { flex: 0 0 220px; max-width:220px; }
+    /* Centered content column to match screenshot */
+    .homepage-layout .container { display:flex; gap:24px; align-items:flex-start; max-width:760px; margin:0 auto; padding:20px 12px; justify-content:center; }
+    .categories-sidebar { flex: 0 0 80px; min-width:80px; }
     .homepage-main { flex: 1 1 0; min-width:0; }
 
     /* Section card wrapper */
-    .featured-products-section { background:#fff; border-radius:var(--card-radius); padding:18px; box-shadow:0 8px 24px rgba(0,0,0,0.06); margin-top:20px; box-sizing:border-box; }
+    .featured-products-section { background:#fff; border-radius:12px; padding:20px; box-shadow:0 8px 24px rgba(0,0,0,0.06); margin-top:20px; }
     .featured-products-section .section-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; }
     .featured-products-section .section-header h2 { margin:0; font-size:20px; color:#223; }
 
-    /* Fluid grid: auto-fit/minmax fills available space so margins balance automatically */
-    .product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:var(--card-gap); align-items:start; }
-    .product-card { position:relative; box-sizing:border-box; width:100%; display:flex; flex-direction:column; align-items:center; text-align:center; background:#fff; border-radius:8px; padding:var(--card-padding); border:1px solid #f4f4f4; min-height:260px; }
-    .product-image { width:100%; aspect-ratio: 4/3; object-fit:contain; border-radius:6px; background:#fafafa; padding:6px; display:block; }
-    .product-image.placeholder { display:flex; align-items:center; justify-content:center; font-size:40px; }
-    .product-info { padding-top:10px; width:100%; }
-    .product-title { margin:6px 0 4px; font-size:14px; color:#222; overflow:hidden; text-overflow:ellipsis; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; min-height:38px; }
+    /* Grid: 3 columns inside the card */
+    .product-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap:18px; align-items:start; }
+    .product-card { box-sizing:border-box; width:100%; display:flex; flex-direction:column; align-items:center; text-align:center; background:#fff; border-radius:8px; padding:10px; border:1px solid #f1f1f1; min-height:260px; }
+    .product-image { width:100%; height:140px; object-fit:contain; border-radius:6px; background:#fafafa; padding:6px; display:block; }
+    .product-image.placeholder { display:flex; align-items:center; justify-content:center; font-size:40px; height:140px; }
+    .product-info { padding-top:8px; width:100%; }
+    .product-title { margin:6px 0 4px; font-size:14px; color:#222; overflow:hidden; text-overflow:ellipsis; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; min-height:36px; }
     .product-price { margin-top:6px; font-weight:700; color:#e53935; font-size:14px; }
     .price-old { text-decoration:line-through; color:#999; margin-right:6px; font-weight:400; font-size:12px; }
     .product-badge { position:absolute; left:12px; top:8px; background:#ff4d4f; color:#fff; padding:6px 8px; border-radius:6px; font-size:12px; box-shadow:0 6px 18px rgba(255,77,79,0.12); }
 
-    /* make gaps/padding adapt on smaller screens to keep balanced look */
+    /* responsive */
     @media (max-width: 900px) {
-      :root { --card-gap: clamp(10px, 3vw, 18px); }
-      .product-grid { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+      .product-grid { grid-template-columns: repeat(2, 1fr); }
     }
     @media (max-width: 600px) {
-      :root { --card-gap: 12px; --card-padding: 10px; }
       .homepage-layout .container { max-width:100%; padding:12px; }
       .categories-sidebar { display:none; }
       .product-grid { grid-template-columns: 1fr; }
       .product-card { min-height:180px; }
-      .product-image { aspect-ratio: 4/3; }
+      .product-image { height:120px; }
     }
   </style>
 </head>
