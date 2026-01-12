@@ -1,16 +1,12 @@
 [phases.build]
-cmds = [
-  "composer install --no-dev --optimize-autoloader"
-]
+cmds = ["composer install --no-dev --optimize-autoloader"]
 
 [phases.deploy]
 cmds = [
-  "php artisan key:generate --force || true",
   "php artisan config:clear",
   "php artisan cache:clear",
   "php artisan view:clear",
-  "php artisan config:cache",
-  "php artisan migrate --force || true"
+  "php artisan config:cache"
 ]
 
 [start]
